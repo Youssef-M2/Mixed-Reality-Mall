@@ -2,33 +2,30 @@ using UnityEngine;
 
 public class HeadFollowUI : MonoBehaviour
 {
-    public Transform head;        // Drag CenterEyeAnchor ici
-    public float distance = 2f;
-    public float heightOffset = -0.2f;
-    public float smoothSpeed = 6f;
+    public Transform head;              // CenterEyeAnchor
+    public float distance = 0.6f;       // Distance plus proche (poke friendly)
+    public float heightOffset = -0.05f; // Légèrement sous les yeux
+    public float smoothSpeed = 8f;      // Plus fluide
 
     void LateUpdate()
     {
         if (head == null) return;
 
-        // Position cible devant la tête
-        Vector3 forward = head.forward;
-        forward.y = 0; // Ignore inclinaison haut/bas
-
-        Vector3 targetPosition = head.position + forward.normalized * distance;
+        // Direction complète (inclut vertical maintenant)
+        Vector3 targetPosition = head.position + head.forward * distance;
         targetPosition.y += heightOffset;
 
+        // Mouvement fluide
         transform.position = Vector3.Lerp(
             transform.position,
             targetPosition,
             smoothSpeed * Time.deltaTime
         );
 
-        // Regarder vers la tête (horizontalement)
-        Vector3 lookDir = transform.position - head.position;
-        lookDir.y = 0;
+        // Toujours regarder la tête correctement
+        transform.LookAt(head);
 
-        if (lookDir != Vector3.zero)
-            transform.rotation = Quaternion.LookRotation(lookDir);
+        // Rotation 180° pour que le canvas fasse face à l'utilisateur
+        transform.Rotate(0, 180f, 0);
     }
 }
