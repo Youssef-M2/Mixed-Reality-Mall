@@ -6,7 +6,7 @@ public class HeadFollowUI : MonoBehaviour
     public float distance = 2f;
     public float smoothSpeed = 6f;
 
-    public Transform head;              // CenterEyeAnchor
+    
 //     public float distance = 0.6f;       // Distance plus proche (poke friendly)
     public float heightOffset = -0.05f; // Légèrement sous les yeux
 //     public float smoothSpeed = 8f;      // Plus fluide
